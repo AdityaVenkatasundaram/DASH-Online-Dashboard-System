@@ -1,3 +1,24 @@
+function login() {
+  var userType = document.getElementById("user-type").value;
+  var username = document.getElementById("username").value;
+  var password = document.getElementById("password").value;
+
+  if (userType === "process_owner" && username === "process_owner" && password === "password1") {
+    window.location.href = "process_owner_dashboard.html";
+  } else if (userType === "team_lead" && username === "team_lead" && password === "password2") {
+    window.location.href = "team_lead_dashboard.html";
+  } else if (userType === "management" && username === "management" && password === "password3") {
+    window.location.href = "management_dashboard.html";
+  } else if (userType === "team_member" && username === "team_member" && password === "password4") {
+    window.location.href = "team_member_dashboard.html";
+  } else {
+    document.getElementById("error-msg").textContent = "Invalid username or password.";
+  }
+
+  return false; 
+}
+
+
 var pivot = new WebDataRocks({
     container: "#wdr-component",
     toolbar: false,
