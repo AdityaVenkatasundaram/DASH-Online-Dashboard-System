@@ -1,3 +1,45 @@
+function loginWithFacebook() {
+  FB.init({
+    appId: 'YOUR_APP_ID',
+    cookie: true,
+    xfbml: true,
+    version: 'v13.0'
+  });
+
+
+  FB.login(function(response) {
+    if (response.authResponse) {
+
+      getUserDetailsFromFacebook();
+    } else {
+
+      console.log('Facebook login cancelled');
+    }
+  });
+}
+
+function getUserDetailsFromFacebook() {
+  FB.api('/me', function(response) {
+    var username = response.name;
+    console.log('Logged in with Facebook:', username);
+});
+}
+
+
+function loginWithGoogle() {
+  gapi.load('auth2', function() {
+    gapi.auth2.init({
+      client_id: 'YOUR_CLIENT_ID'
+    }).then(function() {
+      gapi.auth2.getAuthInstance().signIn().then(function(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        var username = profile.getName();
+        console.log('Logged in with Google:', username);
+      });
+    });
+  });
+}
+
 function login() {
   var userType = document.getElementById("user-type").value;
   var username = document.getElementById("username").value;
