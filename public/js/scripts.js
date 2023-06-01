@@ -9,6 +9,68 @@ const submitForm = () => {
     adddata(formData);
 }
 
+function loginWithFacebook() {
+    FB.init({
+      appId: 'YOUR_APP_ID',
+      cookie: true,
+      xfbml: true,
+      version: 'v13.0'
+    });
+  
+  
+    FB.login(function(response) {
+      if (response.authResponse) {
+  
+        getUserDetailsFromFacebook();
+      } else {
+  
+        console.log('Facebook login cancelled');
+      }
+    });
+  }
+  
+  function getUserDetailsFromFacebook() {
+    FB.api('/me', function(response) {
+      var username = response.name;
+      console.log('Logged in with Facebook:', username);
+  });
+  }
+  
+  
+  function loginWithGoogle() {
+    gapi.load('auth2', function() {
+      gapi.auth2.init({
+        client_id: 'YOUR_CLIENT_ID'
+      }).then(function() {
+        gapi.auth2.getAuthInstance().signIn().then(function(googleUser) {
+          var profile = googleUser.getBasicProfile();
+          var username = profile.getName();
+          console.log('Logged in with Google:', username);
+        });
+      });
+    });
+  }
+  
+  function login() {
+    var userType = document.getElementById("user-type").value;
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+  
+    if (userType === "process_owner" && username === "process_owner" && password === "password1") {
+      window.location.href = "process_owner_dashboard.html";
+    } else if (userType === "team_lead" && username === "team_lead" && password === "password2") {
+      window.location.href = "team_lead_dashboard.html";
+    } else if (userType === "management" && username === "management" && password === "password3") {
+      window.location.href = "management_dashboard.html";
+    } else if (userType === "team_member" && username === "team_member" && password === "password4") {
+      window.location.href = "team_member_dashboard.html";
+    } else {
+      document.getElementById("error-msg").textContent = "Invalid username or password.";
+    }
+  
+    return false; 
+  }
+
 const getJSONData = () => {
     $.get('/api/getData', (res) => {
         if (res.statusCode === 200) {
@@ -16,6 +78,7 @@ const getJSONData = () => {
         }
     });
 }
+
 const jsonData = (items) => {
     console.log(items);
     var pivot = new WebDataRocks({
@@ -180,16 +243,16 @@ const deletedata = (data) => {
     });
 }
 
-let socket = io();
-socket.on('number', (msg) => {
-    console.log('Random number: ' + msg);
-});
+// let socket = io();
+// socket.on('number', (msg) => {
+//     console.log('Random number: ' + msg);
+// });
 
 $(document).ready(function(){
     $('.materialboxed').materialbox();
     $('.modal').modal();
 
-    getJSONData();
+
 
     $('#formSubmit').click(()=>{
         submitForm();
