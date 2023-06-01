@@ -6,7 +6,7 @@ const createData = (req,res) => {
         if (err) {
             res.json({statusCode: 400, message: err});
         } else {
-            res.json({statusCode: 200, data: result, message: 'Cat Successfully Added'});
+            res.json({statusCode: 200, data: result, message: 'Data Successfully Added'});
         }
     });
 }
@@ -27,7 +27,7 @@ const deleteAllData = (req, res) => {
         if (err) {
             res.json({statusCode:400, message: err});
         } else {
-            res.json({statusCode: 200, data: result, message: 'Cat successfully Deleted'});
+            res.json({statusCode: 200, data: result, message: 'Data successfully Deleted'});
         }
     });
 };
